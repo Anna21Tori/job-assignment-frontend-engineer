@@ -40,7 +40,7 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
     }else {
         clearToken();
     }
-  },[currentUser])
+  },[currentUser]) 
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
