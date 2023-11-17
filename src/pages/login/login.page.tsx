@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IUserCredentials } from "../../models/user-credentials.model"
 import { LoginUser } from "services/auth.service";
 import { IUser } from "models/user.model";
+import { IUserContext, UserContext } from "contexts/user.context";
 
 const defaultCredentials : IUserCredentials = {
     email: "",
     password: ""
 }
 const LoginPage = () => {
+    const { setCurrentUser } = useContext<IUserContext>(UserContext);
     const [credentials, setCredentials] = useState(defaultCredentials);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,13 +22,16 @@ const LoginPage = () => {
         }
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
         const response = await LoginUser(credentials);
 
         if(!response.ok){
             //handle error
+            console.log();
         }else {
             const data = await response.json();
+            setCurrentUser(data.user);
         }
     }
 

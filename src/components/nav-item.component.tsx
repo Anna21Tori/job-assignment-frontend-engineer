@@ -1,16 +1,17 @@
-import { Link } from "react-router-dom";
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 interface HeaderItemProps {
-    title: string;
-    slug: string
+    slug: string;
+    children: React.ReactNode;
 }
 const NavItem = (props: HeaderItemProps) => {
-    const {title, slug} = props;
+    const { children, slug } = props;
     return (
         <li className="nav-item">
-              <Link to={slug}>
-                {title}
-              </Link>
+            <NavLink to={slug} className="nav-link">
+                {children}
+            </NavLink>
         </li>
     );
 }
