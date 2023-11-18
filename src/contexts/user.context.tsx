@@ -5,16 +5,16 @@ import { clearToken, getToken, setToken } from "utils/token.util";
 import { GetCurrentUser } from "services/auth.service";
 
 export interface IUserContext {
-    setCurrentUser: (user: IUser) => void,
-    currentUser: IUser | null
+  setCurrentUser: (user: IUser | null) => void;
+  currentUser: IUser | null;
 }
 
 interface IUserProviderProps {
-    children: React.ReactNode
+  children: React.ReactNode;
 }
 export const UserContext = createContext<IUserContext>({
-    setCurrentUser: () => null,
-    currentUser: null,
+  setCurrentUser: () => null,
+  currentUser: null,
 });
 
 export const UserProvider = ({ children }: IUserProviderProps) => {
@@ -23,24 +23,24 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
 
   useEffect(() => {
     async function setCurrentLoggedUser() {
-        const user = getToken() ? 
-                                await GetCurrentUser()
-                                    .then(res => res.json())
-                                    .then(res => res.user)
-                                    .catch(() => null) 
-                                : null;
-        setCurrentUser(user);
+      const user = getToken()
+        ? await GetCurrentUser()
+            .then(res => res.json())
+            .then(res => res.user)
+            .catch(() => null)
+        : null;
+      setCurrentUser(user);
     }
     setCurrentLoggedUser();
-  },[])
+  }, []);
 
   useEffect(() => {
-    if(currentUser){
-        setToken(currentUser.token);
-    }else {
-        clearToken();
+    if (currentUser) {
+      setToken(currentUser.token);
+    } else {
+      clearToken();
     }
-  },[currentUser]) 
+  }, [currentUser]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
