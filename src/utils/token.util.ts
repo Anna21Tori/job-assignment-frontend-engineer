@@ -1,8 +1,8 @@
-const TOKEN_KEY = 'token_key';
+const TOKEN_KEY = "token_key";
 
-export const getToken = (): string | undefined  => {
+export const getToken = (): string | undefined => {
   return localStorage.getItem(TOKEN_KEY) || undefined;
-}
+};
 
 export function setToken(token: string): void {
   localStorage.setItem(TOKEN_KEY, token);
