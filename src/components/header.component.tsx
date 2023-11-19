@@ -12,7 +12,6 @@ const Header = () => {
   const history = useHistory(); //in v6 useNavigate
 
   const handleLogout = () => {
-    clearToken();
     setCurrentUser(null);
     history.push("/");
   };

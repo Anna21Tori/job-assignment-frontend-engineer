@@ -962,7 +962,7 @@
       ]
     },
     "Article": {
-      "type": "object",
+      "type": "object",  
       "properties": {
         "slug": {
           "type": "string"

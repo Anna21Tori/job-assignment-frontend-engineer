@@ -1,9 +1,10 @@
+$primary-color: #5cb85c;
+
 body {
   margin: 0;
   height: 100vh;
   overflow-y: scroll;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -13,7 +14,7 @@ code {
 }
 
 a {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .navbar-nav {
@@ -28,4 +29,15 @@ a {
 
 .nav-avatar {
   width: 25px;
+}
+
+.btn-outline-primary {
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: #5cb85c;
+  --bs-btn-color: #5cb85c;
+  --bs-btn-hover-color: var(--bs-white);
+  --bs-btn-hover-bg: #5cb85c;
+  --bs-btn-hover-border-color: #5cb85c;
+  --bs-btn-active-bg: rgb(57, 132, 57);
+  --bs-btn-active-border-color: rgb(57, 132, 57);
 }

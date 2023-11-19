@@ -3,6 +3,7 @@ import { IUserCredentials } from "../../models/user-credentials.model";
 import { LoginUser } from "services/auth.service";
 import { IUser } from "models/user.model";
 import { IUserContext, UserContext } from "contexts/user.context";
+import { useHistory } from "react-router-dom";
 
 const defaultCredentials: IUserCredentials = {
   email: "",
@@ -11,6 +12,7 @@ const defaultCredentials: IUserCredentials = {
 const LoginPage = () => {
   const { setCurrentUser } = useContext<IUserContext>(UserContext);
   const [credentials, setCredentials] = useState(defaultCredentials);
+  const history = useHistory();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.currentTarget;
@@ -32,6 +34,7 @@ const LoginPage = () => {
     } else {
       const data = await response.json();
       setCurrentUser(data.user);
+      history.push("/");
     }
   };
 

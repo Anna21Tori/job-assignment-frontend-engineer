@@ -3,6 +3,8 @@ WORKDIR /app
 ADD package.json package-lock.json ./
 RUN npm ci
 ADD . .
+COPY ./ /app/
+RUN CI=true npm test
 RUN npm run build
 
 FROM nginx:1.21.3-alpine as production
