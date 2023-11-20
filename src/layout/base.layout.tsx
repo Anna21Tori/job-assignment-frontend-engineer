@@ -9,11 +9,11 @@ const BaseLayout = (props: BaseLayoutProps) => {
   const { children } = props;
 
   return (
-    <div className="app-container d-flex flex-column justify-content-between">
-      <Header />
-
-      {children}
-
+    <div className="app-container">
+      <div className="wrapper">
+        <Header />
+        {children}
+      </div>
       <Footer />
     </div>
   );

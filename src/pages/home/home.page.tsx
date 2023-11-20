@@ -2,7 +2,7 @@ import ArticlesList from "components/articles/articles-list.component";
 
 const HomePage = () => {
   return (
-    <div className="home-page content-page">
+    <div className="home-page page">
       <div className="banner">
         <div className="container">
           <h1 className="logo-font">conduit</h1>

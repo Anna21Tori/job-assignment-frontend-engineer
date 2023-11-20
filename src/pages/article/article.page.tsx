@@ -1,7 +1,7 @@
+import Follow from "components/follow.component";
 import Avatar from "components/user-avatar.component";
-import { IUserContext, UserContext } from "contexts/user.context";
 import { IArticle } from "models/articles.model";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { GetArticle } from "services/articles.service";
 import { formatDate } from "utils/date.utils";
@@ -11,9 +11,10 @@ type ArticleParamsType = {
 };
 
 const ArticlePage = () => {
-  const { currentUser } = useContext<IUserContext>(UserContext);
   const [article, setArticle] = useState<IArticle | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [favorited, setFavorited] = useState(false);
+  const [following, setFollowing] = useState(false);
+  const [favoritesCount, setFavoritesCount] = useState(0);
   const { slug } = useParams<ArticleParamsType>();
 
   useEffect(() => {
@@ -27,16 +28,23 @@ const ArticlePage = () => {
         const data = await response.json();
         setArticle(data.article);
       }
-      setIsLoading(false);
     }
 
     getArticle();
   }, [slug]);
 
+  useEffect(() => {
+    if (article) {
+      setFavorited(article.favorited);
+      setFollowing(article.author.following);
+      setFavoritesCount(article.favoritesCount);
+    }
+  }, [article]);
+
   return (
     <>
       {article && (
-        <div className="article-page content-page">
+        <div className="article-page page">
           <div className="banner">
             <div className="container">
               <h1>{article.title}</h1>
@@ -51,15 +59,31 @@ const ArticlePage = () => {
                   </Link>
                   <span className="date">{formatDate(article.createdAt)}</span>
                 </div>
-                <button className="btn btn-sm btn-outline-secondary">
-                  <i className="ion-plus-round" />
+                <Follow
+                  isPrimary={false}
+                  username={article.author.username}
+                  isFollowing={following}
+                  slug={`/profiles/${article.author.username}/follow`}
+                  isProfile={true}
+                  changeFollow={setFollowing}
+                  changeFollowCount={() => null}
+                >
+                  <i className={following ? "ion-minus-round" : "ion-plus-round"} />
                   &nbsp; Follow {article.author.username} <span className="counter">(10)</span>
-                </button>
+                </Follow>
                 &nbsp;&nbsp;
-                <button className="btn btn-sm btn-outline-primary">
+                <Follow
+                  slug={`/articles/${article.slug}/favorite`}
+                  username={article.author.username}
+                  isFollowing={favorited}
+                  isPrimary={true}
+                  isProfile={false}
+                  changeFollow={setFavorited}
+                  changeFollowCount={setFavoritesCount}
+                >
                   <i className="ion-heart" />
-                  &nbsp; Favorite Post <span className="counter">{article.favoritesCount}</span>
-                </button>
+                  &nbsp; Favorite Post <span className="counter">{favoritesCount}</span>
+                </Follow>
               </div>
             </div>
           </div>

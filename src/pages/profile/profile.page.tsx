@@ -1,4 +1,5 @@
 import ArticlesList from "components/articles/articles-list.component";
+import Follow from "components/follow.component";
 import Avatar from "components/user-avatar.component";
 import { IUserContext, UserContext } from "contexts/user.context";
 import { IUserProfile } from "models/user.model";
@@ -12,6 +13,7 @@ type ProfileParamsType = {
 
 const ProfilePage = () => {
   const { currentUser } = useContext<IUserContext>(UserContext);
+  const [following, setFollowing] = useState(false);
   const [profile, setUserProfile] = useState<IUserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { username } = useParams<ProfileParamsType>();
@@ -44,10 +46,16 @@ const ProfilePage = () => {
     }
   }, [username]);
 
+  useEffect(() => {
+    if (profile) {
+      setFollowing(profile.following);
+    }
+  }, [profile]);
+
   return (
     <>
       {!isLoading && profile && (
-        <div className="profile-page content-page">
+        <div className="profile-page page">
           <div className="user-info">
             <div className="container">
               <div className="row">
@@ -55,10 +63,19 @@ const ProfilePage = () => {
                   <Avatar src={profile.image} className="user-img" />
                   <h4>{profile.username}</h4>
                   <p>{profile.bio}</p>
-                  <button className="btn btn-sm btn-outline-secondary action-btn" disabled={!currentUser}>
-                    <i className="ion-plus-round" />
+                  <Follow
+                    className="action-btn"
+                    isPrimary={false}
+                    username={profile.username}
+                    isFollowing={profile.following}
+                    slug={`/profiles/${username}/follow`}
+                    isProfile={true}
+                    changeFollow={setFollowing}
+                    changeFollowCount={() => null}
+                  >
+                    <i className={following ? "ion-minus-round" : "ion-plus-round"} />
                     &nbsp; Follow {profile.username}
-                  </button>
+                  </Follow>
                 </div>
               </div>
             </div>

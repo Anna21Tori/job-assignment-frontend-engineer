@@ -1,11 +1,10 @@
 import { useContext } from "react";
 import NavItem from "./nav-item.component";
 import { IUserContext, UserContext } from "contexts/user.context";
-import { Avatar } from "@mui/material";
+import { Avatar, Tooltip } from "@mui/material";
 import image from "../assets/user.png";
 import { NavLink, useHistory } from "react-router-dom";
 import BaseButton from "./base-button.component";
-import { clearToken } from "utils/token.util";
 
 const Header = () => {
   const { currentUser, setCurrentUser } = useContext<IUserContext>(UserContext);
@@ -30,11 +29,13 @@ const Header = () => {
             {!currentUser && <NavItem slug="/login">Sign in</NavItem>}
             {currentUser && (
               <li className="nav-item">
-                <Avatar
-                  src={currentUser.image ? currentUser.image : image}
-                  component={NavLink}
-                  to={`/profile/${currentUser.username}`}
-                />
+                <Tooltip title={currentUser.username}>
+                  <Avatar
+                    src={currentUser.image ? currentUser.image : image}
+                    component={NavLink}
+                    to={`/profile/${currentUser.username}`}
+                  />
+                </Tooltip>
               </li>
             )}
             {currentUser && (

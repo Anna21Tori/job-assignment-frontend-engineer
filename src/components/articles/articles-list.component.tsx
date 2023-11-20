@@ -21,6 +21,7 @@ const LIMIT = 10;
 const ArticlesList = ({ isGlobalFeed, username }: IArticlesListProps) => {
   const [articleResponse, setArticleResponse] = useState<IArticlesResponse | null>(null);
   const [currentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function getArticles() {
@@ -34,13 +35,17 @@ const ArticlesList = ({ isGlobalFeed, username }: IArticlesListProps) => {
         const data = await response.json();
         setArticleResponse(data);
       }
+      setIsLoading(false);
     }
-
+    setIsLoading(true);
     getArticles();
   }, [isGlobalFeed, currentPage]);
 
   return (
-    <>{articleResponse && articleResponse.articles.map((article, id) => <ArticleItem key={id} article={article} />)}</>
+    <>
+      {articleResponse && articleResponse.articles.map((article, id) => <ArticleItem key={id} article={article} />)}
+      {isLoading && <div className="py-2">Loading articles...</div>}
+    </>
   );
 };
 export default ArticlesList;

@@ -1,7 +1,6 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IUserCredentials } from "../../models/user-credentials.model";
 import { LoginUser } from "services/auth.service";
-import { IUser } from "models/user.model";
 import { IUserContext, UserContext } from "contexts/user.context";
 import { useHistory } from "react-router-dom";
 
@@ -9,10 +8,17 @@ const defaultCredentials: IUserCredentials = {
   email: "",
   password: "",
 };
+
 const LoginPage = () => {
-  const { setCurrentUser } = useContext<IUserContext>(UserContext);
+  const { currentUser, setCurrentUser } = useContext<IUserContext>(UserContext);
   const [credentials, setCredentials] = useState(defaultCredentials);
   const history = useHistory();
+
+  useEffect(() => {
+    if (currentUser) {
+      history.push("/");
+    }
+  }, [currentUser]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.currentTarget;
@@ -39,8 +45,8 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="auth-page content-page">
-      <div className="container page">
+    <div className="auth-page">
+      <div className="container">
         <div className="row">
           <div className="col-md-6 offset-md-3 col-xs-12">
             <h1 className="text-xs-center">Sign in</h1>
@@ -66,7 +72,7 @@ const LoginPage = () => {
                   onChange={onChange}
                 />
               </fieldset>
-              <button className="btn btn-lg btn-primary pull-xs-right" onClick={handleSubmit}>
+              <button className="btn btn-lg btn-outline-primary pull-xs-right btn-login" onClick={handleSubmit}>
                 Sign in
               </button>
             </form>

@@ -41,3 +41,26 @@ a {
   --bs-btn-active-bg: rgb(57, 132, 57);
   --bs-btn-active-border-color: rgb(57, 132, 57);
 }
+
+.btn.btn-outline-primary:disabled {
+  color: #6c757d !important;
+  border-color: #6c757d !important;
+}
+
+.btn-login {
+  width: 100%;
+}
+
+.author {
+  color: #5cb85c;
+}
+
+.main-footer {
+  height: 60px;
+  margin-top: -60px;
+}
+
+.wrapper {
+  min-height: 100%;
+  padding-bottom: 60px;
+}
